@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.mtcoding.blog._core.errors.exception.Exception400;
+import shop.mtcoding.blog._core.errors.exception.Exception401;
+import shop.mtcoding.blog._core.errors.exception.Exception404;
 
 import java.util.Optional;
 
@@ -11,6 +13,32 @@ import java.util.Optional;
 @Service // IoC에 등록된다.
 public class UserService {
     private final UserJPARepository userJPARepository;
+
+    @Transactional
+    public User 회원수정(int id, UserRequest.UpdateDTO reqDTO){
+        User user = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("회원 정보를 찾을 수 없습니다."));
+
+        user.setPassword(reqDTO.getPassword());
+        user.setEmail(reqDTO.getEmail());
+        return user;
+    } // 더티체킹
+
+    public User 회원조회(int id){
+        // 예외 처리
+        User user = userJPARepository.findById(id)
+                .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다."));
+        return user;
+    }
+
+    // 조회라서 @Transactional이 필요 없다.
+    @Transactional
+    public User 로그인(UserRequest.LoginDTO reqDTO){
+        User sessionUser = userJPARepository.findByUsernameAndPassword(reqDTO.getUsername(), reqDTO.getPassword())
+                .orElseThrow(() -> new Exception401("인증되지 않았습니다."));
+                // 조회를 했을 때 값이 null이면 throw를 날리고, null이 아니면 값을 받겠다는 의미
+        return sessionUser;
+    }
 
     @Transactional
     public void 회원가입(UserRequest.JoinDTO reqDTO){
