@@ -22,6 +22,12 @@ public class BoardRepository {
     } // 더티체킹
 
     @Transactional
+    public void deleteByIdV2(int id){
+        Board board = em.find(Board.class, id);
+        em.remove(board);
+    }
+
+    @Transactional
     public void deleteById(int id){
         Query query = em.createQuery("delete from Board b where b.id = :id");
         query.setParameter("id", id);
