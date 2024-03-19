@@ -32,6 +32,7 @@ public class Board {
     @CreationTimestamp // pc -> db (날짜주입)
     private Timestamp createdAt;
 
+    @OrderBy("id desc")
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 

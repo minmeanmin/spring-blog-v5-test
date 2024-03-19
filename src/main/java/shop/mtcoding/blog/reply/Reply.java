@@ -19,13 +19,13 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY )
-    private User user; //user_id로 만들어진다.
-
-    @ManyToOne(fetch = FetchType.LAZY )
-    private Board board;//관계 테이블에서 1에 해당한는 entity를 묶어준다.
-
     private String comment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Board board;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -34,11 +34,11 @@ public class Reply {
     private boolean isReplyOwner;
 
     @Builder
-    public Reply(Integer id, User user, Board board, Timestamp createdAt) {
+    public Reply(Integer id, String comment, User user, Board board, Timestamp createdAt) {
         this.id = id;
+        this.comment = comment;
         this.user = user;
         this.board = board;
         this.createdAt = createdAt;
     }
 }
-
