@@ -22,10 +22,10 @@ public class UserController {
 
 
     // TODO: 회원정보 조회 API 필요 -> @GetMapping("/api/users/{id}")
-    @GetMapping("/api/users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<?> userinfo(@PathVariable Integer id){
-        User user = userService.회원조회(id);
-        return ResponseEntity.ok(new ApiUtil(user)); // get이라서 돌려줘야함
+        UserResponse.DTO respDTO = userService.회원조회(id);
+        return ResponseEntity.ok(new ApiUtil(respDTO)); // get이라서 돌려줘야함
     }
 
     @PutMapping("/api/users/{id}")

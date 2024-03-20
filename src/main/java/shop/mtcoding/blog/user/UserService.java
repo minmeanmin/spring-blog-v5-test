@@ -24,11 +24,10 @@ public class UserService {
         return user;
     } // 더티체킹
 
-    public User 회원조회(int id){
-        // 예외 처리
+    public UserResponse.DTO 회원조회(int id){
         User user = userJPARepository.findById(id)
                 .orElseThrow(() -> new Exception404("회원정보를 찾을 수 없습니다."));
-        return user;
+        return new UserResponse.DTO(user);
     }
 
     // 조회라서 @Transactional이 필요 없다.
